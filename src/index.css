@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #021526;
+  color: #fff;
+  font-family: "Bree Serif", serif;
+}
