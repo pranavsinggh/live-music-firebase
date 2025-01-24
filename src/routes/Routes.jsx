@@ -5,6 +5,11 @@ import Login from "../components/auth/Login";
 import ProfileContainer from "../components/user profile/ProfileContainer";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PublicRoutes from "./PublicRoutes";
+import ResetPassword from "../components/auth/ResetPassword";
+import MyAccount from "../components/user profile/MyAccount";
+import ChangePassword from "../components/user profile/ChangePassword";
+import UploadProfilePhoto from "../components/user profile/UploadProfilePhoto";
+import Settings from "../components/user profile/Settings";
 
 const router = createBrowserRouter([
   {
@@ -22,12 +27,54 @@ const router = createBrowserRouter([
             <ProfileContainer />
           </ProtectedRoutes>
         ),
+        children: [
+          {
+            index: true,
+            element: (
+              <ProtectedRoutes>
+                <MyAccount />
+              </ProtectedRoutes>
+            ),
+          },
+          {
+            path: "change-password",
+            element: (
+              <ProtectedRoutes>
+                <ChangePassword />
+              </ProtectedRoutes>
+            ),
+          },
+          {
+            path: "upload-profile-photo",
+            element: (
+              <ProtectedRoutes>
+                <UploadProfilePhoto />
+              </ProtectedRoutes>
+            ),
+          },
+          {
+            path: "settings",
+            element: (
+              <ProtectedRoutes>
+                <Settings />
+              </ProtectedRoutes>
+            ),
+          },
+        ],
       },
       {
         path: "/auth/login",
         element: (
           <PublicRoutes>
             <Login />
+          </PublicRoutes>
+        ),
+      },
+      {
+        path: "/auth/resetpassword",
+        element: (
+          <PublicRoutes>
+            <ResetPassword />
           </PublicRoutes>
         ),
       },

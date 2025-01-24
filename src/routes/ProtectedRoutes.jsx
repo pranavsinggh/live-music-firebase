@@ -8,7 +8,7 @@ const ProtectedRoutes = ({ children }) => {
     (authUser && authUser?.accessToken) ||
     window.localStorage.getItem("TOKEN")
   ) {
-    return { children };
+    return children ;
   } else {
     return <Navigate to="/auth/login" />;
   }

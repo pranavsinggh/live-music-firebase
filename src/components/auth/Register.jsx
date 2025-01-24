@@ -21,6 +21,8 @@ const Register = () => {
   });
   let { username, email, password, confirm_password } = data;
 
+  const [isLoading, setIsLoading] = useState(false);
+
   let [type, setType] = useState(false);
 
   let handleType = e => {
@@ -33,6 +35,7 @@ const Register = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       if (password !== confirm_password) {
         toast.error("Passwords does not match");
@@ -161,7 +164,7 @@ const Register = () => {
             </div>
             <div className="p-2">
               <button className="bg-[#eb6378] w-full flex justify-center py-2 px-4 border-transparent text-md font-medium my-1 rounded-md text-white hover:bg-purple-600 focus:outline-none">
-                Register
+                {isLoading ? "...Loading" : "Register"}
               </button>
             </div>
           </form>
