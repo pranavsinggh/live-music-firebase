@@ -2,6 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "../components/Layout";
 import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
+import ProfileContainer from "../components/user profile/ProfileContainer";
+import ProtectedRoutes from "./ProtectedRoutes";
+import PublicRoutes from "./PublicRoutes";
 
 const router = createBrowserRouter([
   {
@@ -13,12 +16,28 @@ const router = createBrowserRouter([
         element: <h1>Home page</h1>,
       },
       {
+        path: "/user/profile",
+        element: (
+          <ProtectedRoutes>
+            <ProfileContainer />
+          </ProtectedRoutes>
+        ),
+      },
+      {
         path: "/auth/login",
-        element: <Login />,
+        element: (
+          <PublicRoutes>
+            <Login />
+          </PublicRoutes>
+        ),
       },
       {
         path: "/auth/register",
-        element: <Register />,
+        element: (
+          <PublicRoutes>
+            <Register />
+          </PublicRoutes>
+        ),
       },
     ],
   },
