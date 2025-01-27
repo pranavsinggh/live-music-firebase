@@ -11,7 +11,7 @@ const Menu = () => {
   const logout = async () => {
     try {
       await signOut(__AUTH);
-      window.localStorage.removeItem("TOKEN");
+      // window.localStorage.removeItem("TOKEN");
       toast.success("User logged out");
       window.location.assign("/");
     } catch (error) {

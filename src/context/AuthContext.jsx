@@ -9,7 +9,8 @@ const AuthProvider = ({ children }) => {
   let [authUser, setAuthUser] = useState(null);
 
   useEffect(() => {
-    return onAuthStateChanged(__AUTH, userInfo => {
+    onAuthStateChanged(__AUTH, userInfo => {
+      console.log(userInfo);
       if (userInfo?.emailVerified && !userInfo?.isAnonymous) {
         setAuthUser(userInfo);
         window.localStorage.setItem("TOKEN", userInfo.accessToken);
@@ -17,7 +18,7 @@ const AuthProvider = ({ children }) => {
         window.localStorage.removeItem("TOKEN");
       }
     });
-  }, []);
+  }, [__AUTH]);
 
   return (
     <AuthContextAPI.Provider value={{ authUser }}>

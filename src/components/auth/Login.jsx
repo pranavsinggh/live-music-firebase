@@ -33,6 +33,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       let data = await signInWithEmailAndPassword(__AUTH, email, password);
+      console.log(data)
       if (data.user.emailVerified === true) {
         toast.success("User logged in");
         navigate("/");
