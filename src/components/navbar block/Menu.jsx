@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContextAPI } from "../../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { __AUTH } from "../../backend/firebase";
@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 
 const Menu = () => {
   let { authUser } = useContext(AuthContextAPI);
+  let navigate = useNavigate();
 
   const logout = async () => {
     try {
@@ -14,6 +15,7 @@ const Menu = () => {
       // window.localStorage.removeItem("TOKEN");
       toast.success("User logged out");
       window.location.assign("/");
+      // navigate("/auth/login");
     } catch (error) {
       toast.error(error.message);
     }

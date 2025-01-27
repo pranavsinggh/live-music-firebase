@@ -10,6 +10,7 @@ import MyAccount from "../components/user profile/MyAccount";
 import ChangePassword from "../components/user profile/ChangePassword";
 import UploadProfilePhoto from "../components/user profile/UploadProfilePhoto";
 import Settings from "../components/user profile/Settings";
+import AddProfile from "../components/user profile/AddProfile";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,14 @@ const router = createBrowserRouter([
             element: (
               <ProtectedRoutes>
                 <MyAccount />
+              </ProtectedRoutes>
+            ),
+          },
+          {
+            path: "add-profile-data",
+            element: (
+              <ProtectedRoutes>
+                <AddProfile />
               </ProtectedRoutes>
             ),
           },
