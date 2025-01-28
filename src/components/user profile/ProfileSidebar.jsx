@@ -8,8 +8,8 @@ import { ImProfile } from "react-icons/im";
 
 const ProfileSidebar = () => {
   return (
-    <aside className="w-[16%] h-[90vh] bg-slate-800 sticky top-[80px] min-w-[230px]">
-      <nav>
+    <aside className="w-[16%] h-[91vh] bg-slate-800 sticky top-[80px] min-w-[230px]">
+      <nav className="flex flex-col justify-between h-full">
         <ul className="flex flex-col">
           <li>
             <NavLink
@@ -83,6 +83,17 @@ const ProfileSidebar = () => {
             </NavLink>
           </li>
         </ul>
+        <footer>
+          <NavLink
+            to="/user/profile/settings"
+            className="flex gap-2 items-center p-3 mb-1 bg-red-600"
+            // style={({ isActive }) => ({
+            //   background: isActive && "#393f61a6",
+            // })}
+          >
+            <span>Danger zone</span>
+          </NavLink>
+        </footer>
       </nav>
     </aside>
   );
