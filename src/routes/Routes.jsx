@@ -11,6 +11,10 @@ import ChangePassword from "../components/user profile/ChangePassword";
 import UploadProfilePhoto from "../components/user profile/UploadProfilePhoto";
 import Settings from "../components/user profile/Settings";
 import AddProfile from "../components/user profile/AddProfile";
+import AdminRoutes from "./AdminRoutes";
+import AdminContainer from "../components/admin/AdminContainer";
+import AdminDashboard from "../components/admin/AdminDashboard";
+import AddAlbum from "../components/admin/album/AddAlbum";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +24,26 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <h1>Home page</h1>,
+      },
+      {
+        path: "/admin",
+        element: (
+          <ProtectedRoutes>
+            <AdminRoutes>
+              <AdminContainer />
+            </AdminRoutes>
+          </ProtectedRoutes>
+        ),
+        children: [
+          {
+            index: true,
+            element: <AdminDashboard />,
+          },
+          {
+            path: "add-album",
+            element: <AddAlbum />,
+          },
+        ],
       },
       {
         path: "/user/profile",
@@ -79,6 +103,14 @@ const router = createBrowserRouter([
           </PublicRoutes>
         ),
       },
+      // {
+      //   path: "/auth/phone",
+      //   element: (
+      //     <PublicRoutes>
+      //       <PhoneAuth />
+      //     </PublicRoutes>
+      //   ),
+      // },
       {
         path: "/auth/resetpassword",
         element: (
