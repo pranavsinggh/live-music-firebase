@@ -10,7 +10,6 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(__AUTH, userInfo => {
-      console.log(userInfo);
       if (userInfo?.emailVerified && !userInfo?.isAnonymous) {
         setAuthUser(userInfo);
         window.localStorage.setItem("TOKEN", userInfo.accessToken);

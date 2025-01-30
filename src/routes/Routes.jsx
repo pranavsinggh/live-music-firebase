@@ -17,6 +17,8 @@ import AdminDashboard from "../components/admin/AdminDashboard";
 import AddAlbum from "../components/admin/album/AddAlbum";
 import LandingContainer from "../components/user landing/LandingContainer";
 import LandingDashboard from "../components/user landing/LandingDashboard";
+import NotFound from "../components/PageNotFound";
+import AlbumDetails from "../components/user landing/AlbumDetails";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +35,7 @@ const router = createBrowserRouter([
           },
           {
             path: "/album/:id",
-            element: <h1>Each album</h1>,
+            element: <AlbumDetails />,
           },
         ],
       },
@@ -140,6 +142,11 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

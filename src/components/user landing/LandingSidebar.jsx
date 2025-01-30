@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 const LandingSidebar = () => {
   return (
-    <aside className="w-[16%] h-[91vh] bg-slate-800 sticky top-[70px] min-w-[230px]">
+    <aside className="w-[16%] h-[90vh] bg-slate-800 sticky top-[71px] min-w-[230px] z-[1]">
       <nav className="flex flex-col justify-between h-full">
         <ul className="flex flex-col">
           <li>
