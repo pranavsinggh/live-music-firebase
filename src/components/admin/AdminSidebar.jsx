@@ -40,48 +40,6 @@ const AdminSidebar = () => {
               <span>Add album</span>
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/user/profile/change-password"
-              className="flex gap-2 items-center p-3 mb-1"
-              style={({ isActive }) => ({
-                background: isActive && "#393f61a6",
-              })}
-            >
-              <span className="text-slate-400 text-2xl">
-                <TbLockPassword />
-              </span>
-              <span>Change password</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/user/profile/upload-profile-photo"
-              className="flex gap-2 items-center p-3 mb-1"
-              style={({ isActive }) => ({
-                background: isActive && "#393f61a6",
-              })}
-            >
-              <span className="text-slate-400 text-2xl">
-                <FaPhotoVideo />
-              </span>
-              <span>Upload Profile Photo</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/user/profile/settings"
-              className="flex gap-2 items-center p-3 mb-1"
-              style={({ isActive }) => ({
-                background: isActive && "#393f61a6",
-              })}
-            >
-              <span className="text-slate-400 text-2xl">
-                <CiSettings />
-              </span>
-              <span>Settings</span>
-            </NavLink>
-          </li>
         </ul>
       </nav>
     </aside>

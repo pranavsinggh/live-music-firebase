@@ -75,6 +75,14 @@ const Menu = () => {
         <li>
           <NavLink
             className="text-white active:bg-[#4a3e60cc] hover:bg-purple-800 px-5 py-3 font-semibold pointer-events-auto rounded-md"
+            to="/admin"
+          >
+            Admin
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className="text-white active:bg-[#4a3e60cc] hover:bg-purple-800 px-5 py-3 font-semibold pointer-events-auto rounded-md"
             onClick={logout}
           >
             Logout

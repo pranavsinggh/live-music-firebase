@@ -15,6 +15,8 @@ import AdminRoutes from "./AdminRoutes";
 import AdminContainer from "../components/admin/AdminContainer";
 import AdminDashboard from "../components/admin/AdminDashboard";
 import AddAlbum from "../components/admin/album/AddAlbum";
+import LandingContainer from "../components/user landing/LandingContainer";
+import LandingDashboard from "../components/user landing/LandingDashboard";
 
 const router = createBrowserRouter([
   {
@@ -22,8 +24,18 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        index: true,
-        element: <h1>Home page</h1>,
+        path: "/",
+        element: <LandingContainer />,
+        children: [
+          {
+            index: true,
+            element: <LandingDashboard />,
+          },
+          {
+            path: "/album/:id",
+            element: <h1>Each album</h1>,
+          },
+        ],
       },
       {
         path: "/admin",
