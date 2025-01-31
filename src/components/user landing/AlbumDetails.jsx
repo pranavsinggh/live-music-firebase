@@ -1,10 +1,9 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AlbumDetail from "./AlbumDetail";
 import { FaPlay, FaPause } from "react-icons/fa";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
-import ReactAudioPlayer from "react-audio-player";
 
 const AlbumDetails = () => {
   let { state } = useLocation();

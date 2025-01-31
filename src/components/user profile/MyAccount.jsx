@@ -31,8 +31,8 @@ const MyAccount = () => {
   return authUser === null ? (
     <Spinner />
   ) : (
-    <section className="bg-gradient-to-b from-indigo-900 to-purple-800 h-[90vh] flex items-center justify-center">
-      <article className="flex flex-col max-w-3xl w-full m-auto bg-gradient-to-b from-slate-800 to-slate-900 scale-[0.93] rounded-xl shadow-2xl px-8 py-6">
+    <section className="bg-gradient-to-b from-indigo-900 to-purple-800 h-[90vh] flex justify-center">
+      <article className="flex flex-col max-w-3xl w-full m-auto bg-gradient-to-b from-slate-800 to-slate-900 scale-[0.8] rounded-xl shadow-2xl px-8 py-6 -mt-8">
         <header className="flex flex-col w-full h-48 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-t-xl justify-center items-center text-center relative">
           <Link to="/user/profile/upload-profile-photo">
             <TbPhotoEdit className="absolute right-[295px] top-[55px] text-4xl text-red-500 bg-black rounded-full p-2 cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out" />
