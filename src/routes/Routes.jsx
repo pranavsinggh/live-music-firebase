@@ -19,6 +19,8 @@ import LandingContainer from "../components/user landing/LandingContainer";
 import LandingDashboard from "../components/user landing/LandingDashboard";
 import NotFound from "../components/PageNotFound";
 import AlbumDetails from "../components/user landing/AlbumDetails";
+import AudioContextProvider from "../context/AudioContextApi";
+import LandingContent from "../components/user landing/LandingContent";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +29,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <LandingContainer />,
+        element: (
+          <AudioContextProvider>
+            <LandingContainer />
+          </AudioContextProvider>
+        ),
         children: [
           {
             index: true,
