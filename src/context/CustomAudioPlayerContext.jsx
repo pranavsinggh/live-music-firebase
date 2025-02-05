@@ -17,13 +17,10 @@ const CustomAudioPlayerProvider = ({ children }) => {
   console.log(songs);
 
   const handlePlay = (index, allSongs) => {
-    setSong(allSongs[index]);
-    setSongs(allSongs);
-
-    console.log(songs[index]);
-
     if (type == "album") {
       if (authUser !== null || index < 2) {
+        setSong(allSongs[index]);
+        setSongs(allSongs);
         if (currentSong === index) {
           setPlaying(!playing);
         } else {
@@ -35,6 +32,8 @@ const CustomAudioPlayerProvider = ({ children }) => {
         toast.error("Login to listen to other songs");
       }
     } else if (type == "song") {
+      setSong(allSongs[index]);
+      setSongs(allSongs);
       setAudio(allSongs[index]?.src);
       setCurrentSong(index);
       setPlaying(true);
