@@ -17,6 +17,7 @@ const CustomAudioPlayer = ({
   handlePlay,
   length,
   index,
+  songs,
 }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -96,18 +97,19 @@ const CustomAudioPlayer = ({
   };
 
   const handleForward = () => {
+    console.log(index);
     if (index + 1 === length) {
-      handlePlay(0);
+      handlePlay(0, songs);
     } else {
-      handlePlay(index + 1);
+      handlePlay(index + 1, songs);
     }
   };
 
   const handleBackward = () => {
     if (index === 0) {
-      handlePlay(length - 1);
+      handlePlay(length - 1, songs);
     } else {
-      handlePlay(index - 1);
+      handlePlay(index - 1, songs);
     }
   };
 

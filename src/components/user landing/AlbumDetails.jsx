@@ -3,12 +3,14 @@ import { useLocation } from "react-router-dom";
 import AlbumDetail from "./AlbumDetail";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { AuthContextAPI } from "../../context/AuthContext";
-import toast from "react-hot-toast";
-import CustomAudioPlayer from "./CustomAudioPlayer";
+import { CustomAudioPlayerContextAPI } from "../../context/CustomAudioPlayerContext";
 
 const AlbumDetails = () => {
   let { state } = useLocation();
   let { authUser } = useContext(AuthContextAPI);
+  let { setSongs, playing, handlePlay, setType, song } = useContext(
+    CustomAudioPlayerContextAPI
+  );
 
   let [musicDirector, setMusicDirector] = useState("");
   let [lyricist, setLyricist] = useState("");
@@ -17,6 +19,9 @@ const AlbumDetails = () => {
   let [director, setDirector] = useState("");
 
   useEffect(() => {
+    // setSongs(state?.songs);
+    setType("album");
+    // console.log(songs);
     if (state?.songs) {
       let newMusicDirectors = new Set();
       let newDirectors = new Set();
@@ -24,7 +29,7 @@ const AlbumDetails = () => {
       let newActors = new Set();
       let newSingers = new Set();
 
-      state.songs.forEach(song => {
+      state?.songs.forEach(song => {
         if (song.artists) {
           if (song.artists.musicDirector) {
             newMusicDirectors.add(song.artists.musicDirector);
@@ -44,25 +49,16 @@ const AlbumDetails = () => {
       setActors(Array.from(newActors).join(", "));
       setSingers(Array.from(newSingers).join(", "));
     }
+    // setSongs(state.songs);
   }, [state]);
 
-  let [playing, setPlaying] = useState(false);
-  let [currentSong, setCurrentSong] = useState();
-  let [audio, setAudio] = useState("");
+  // const handlePlayAfterSetSongs = index => {
+  //   setSongs(state.songs);
 
-  const handlePlay = index => {
-    if (authUser !== null || index < 2) {
-      if (currentSong === index) {
-        setPlaying(!playing);
-      } else {
-        setAudio(state.songs[index].src);
-        setCurrentSong(index);
-        setPlaying(true);
-      }
-    } else {
-      toast.error("Login to listen to other songs");
-    }
-  };
+  //   setTimeout(() => {
+  //     handlePlay(index);
+  //   }, 0);
+  // };
 
   return (
     <section className="p-3 w-full">
@@ -70,7 +66,7 @@ const AlbumDetails = () => {
         <aside className="flex gap-10 ">
           <div className="basis-[30%]">
             <figure className="py-3 relative">
-              <img src={state.poster} alt="" className="rounded-lg w-full " />
+              <img src={state?.poster} alt="" className="rounded-lg w-full " />
               <span className="absolute top-0 right-0 px-3 py-1 bg-pink-500 rounded-md text-[12px]">
                 {state.language}
               </span>
@@ -113,18 +109,18 @@ const AlbumDetails = () => {
               </tr>
             </thead>
             <tbody>
-              {state.songs.map((song, index) => {
+              {state?.songs.map((allbumSong, index) => {
                 return (
                   <tr
-                    key={song.id}
+                    key={allbumSong.id}
                     className={`border-b border-slate-400  text-slate-400 transition-all cursor-pointer ${
-                      currentSong === index && "bg-purple-900 text-white"
+                      allbumSong === song && "bg-purple-900 text-white"
                     }  ${
                       authUser === null &&
                       index > 1 &&
                       "bg-[#62676A] text-black cursor-not-allowed"
                     }`}
-                    onClick={() => handlePlay(index)}
+                    onClick={() => handlePlay(index, state.songs)}
                   >
                     <td className="py-2">
                       <div className="flex justify-center items-center">
@@ -133,32 +129,36 @@ const AlbumDetails = () => {
                     </td>
                     <td className="relative  py-2">
                       <span className="absolute top-7 text-white  left-11">
-                        {currentSong === index && playing ? (
+                        {allbumSong === song && playing ? (
                           <FaPause />
                         ) : (
                           <FaPlay />
                         )}
                       </span>
                       <img
-                        src={song.thumbnail}
+                        src={allbumSong.thumbnail}
                         alt=""
                         className="h-14 w-18 rounded-lg"
                       />
                     </td>
-                    <td className="py-2">{song.name}</td>
+                    <td className="py-2">{allbumSong.name}</td>
                     <td className="py-2">
-                      {song.artists.singers + "," + song.artists.actors}
+                      {allbumSong.artists.singers +
+                        "," +
+                        allbumSong.artists.actors}
                     </td>
-                    <td className="py-2 px-6">{song.artists.musicDirector}</td>
+                    <td className="py-2 px-6">
+                      {allbumSong.artists.musicDirector}
+                    </td>
                     <td className="py-2 px-6">{`${Math.floor(
-                      song.duration / 60
-                    )}:${String(Math.round(song.duration % 60)).padStart(
+                      allbumSong.duration / 60
+                    )}:${String(Math.round(allbumSong.duration % 60)).padStart(
                       2,
                       "0"
                     )}`}</td>
                     <td className="text-white ">
                       <span>
-                        {currentSong === index
+                        {allbumSong === song
                           ? playing
                             ? "Playing..."
                             : "Paused..."
@@ -171,20 +171,6 @@ const AlbumDetails = () => {
             </tbody>
           </table>
         </main>
-        <footer
-          className={`fixed left-2 rounded-lg overflow-hidden bottom-2 z-40 w-[99%] ${
-            currentSong === undefined && "hidden"
-          }`}
-        >
-          <CustomAudioPlayer
-            audioSrc={audio}
-            isPlaying={playing}
-            onPlayPause={() => setPlaying(!playing)}
-            handlePlay={handlePlay}
-            length={state.songs.length}
-            index={currentSong}
-          />
-        </footer>
       </article>
     </section>
   );
