@@ -14,15 +14,19 @@ import AddProfile from "../components/user profile/AddProfile";
 import AdminRoutes from "./AdminRoutes";
 import AdminContainer from "../components/admin/AdminContainer";
 import AdminDashboard from "../components/admin/AdminDashboard";
-import AddAlbum from "../components/admin/album/AddAlbum";
+import AddAlbum from "../components/admin/AddAlbum";
 import LandingContainer from "../components/user landing/LandingContainer";
 import LandingDashboard from "../components/user landing/LandingDashboard";
 import NotFound from "../components/PageNotFound";
 import AlbumDetails from "../components/user landing/AlbumDetails";
 import AudioContextProvider from "../context/AudioContextApi";
-import LandingContent from "../components/user landing/LandingContent";
 import CustomAudioPlayerProvider from "../context/CustomAudioPlayerContext";
 import Favourites from "../components/user landing/Favourites";
+import Trending from "../components/user landing/Trending";
+import Playlists from "../components/user landing/Playlists";
+import AddTrendingAlbums from "../components/admin/AddTrendingAlbums";
+import AddTrendingSongs from "../components/admin/AddTrendingSongs";
+import AddSong from "../components/admin/AddSong";
 
 const router = createBrowserRouter([
   {
@@ -48,8 +52,24 @@ const router = createBrowserRouter([
             element: <AlbumDetails />,
           },
           {
+            path: "trendings",
+            element: <Trending />,
+          },
+          {
             path: "favourites",
-            element: <Favourites />,
+            element: (
+              <ProtectedRoutes>
+                <Favourites />
+              </ProtectedRoutes>
+            ),
+          },
+          {
+            path: "playlists",
+            element: (
+              <ProtectedRoutes>
+                <Playlists />
+              </ProtectedRoutes>
+            ),
           },
         ],
       },
@@ -70,6 +90,18 @@ const router = createBrowserRouter([
           {
             path: "add-album",
             element: <AddAlbum />,
+          },
+          {
+            path: "add-song",
+            element: <AddSong />,
+          },
+          {
+            path: "add-trending-albums",
+            element: <AddTrendingAlbums />,
+          },
+          {
+            path: "add-trending-songs",
+            element: <AddTrendingSongs />,
           },
         ],
       },

@@ -5,7 +5,7 @@ import ProfileContent from "./ProfileContent";
 const ProfileContainer = () => {
   return (
     <section>
-      <article className="flex gap-2">
+      <article className="flex">
         <ProfileSidebar />
         <ProfileContent />
       </article>

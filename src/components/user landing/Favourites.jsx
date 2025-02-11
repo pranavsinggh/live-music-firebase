@@ -21,11 +21,14 @@ const Favourites = () => {
   const [favouriteSongs, setFavouriteSongs] = useState([]);
   const [favouriteSongsData, setFavouriteSongsData] = useState([]);
   const { authUser } = useContext(AuthContextAPI);
-  let [loading, setLoading] = useState(true);
+  let [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchFavourites = async () => {
-      if (!authUser?.uid) return;
+      setLoading(true);
+      if (!authUser?.uid) {
+        return setLoading(false);
+      }
 
       const userDocRef = doc(__DB, "user_profile", authUser.uid);
       const userDocSnap = await getDoc(userDocRef);
@@ -59,7 +62,9 @@ const Favourites = () => {
     };
 
     const fetchFavouriteSongs = async () => {
-      if (favouriteSongs.length === 0) return;
+      if (favouriteSongs.length === 0) {
+        return setLoading(false);
+      }
 
       const albumCollectionRef = collection(__DB, "albums");
       const albumDocs = await getDocs(albumCollectionRef); // Get all albums
@@ -78,11 +83,10 @@ const Favourites = () => {
           ];
         }
       });
-   
+
       setLoading(false);
       setFavouriteSongsData(favSongs);
     };
-
 
     fetchFavouriteAlbums();
     fetchFavouriteSongs();
@@ -98,8 +102,21 @@ const Favourites = () => {
         </div>
       ) : (
         <>
-          <AllAlbums albums={favouriteAlbumsData} display="Favourite albums" />
-          <TrendingSongs display="Favourite songs" songs={favouriteSongsData} />
+          {favouriteAlbumsData.length > 0 && (
+            <AllAlbums
+              albums={favouriteAlbumsData}
+              display="Favourite albums"
+            />
+          )}
+          {favouriteSongsData.length > 0 && (
+            <TrendingSongs
+              display="Favourite songs"
+              songs={favouriteSongsData}
+            />
+          )}
+          {favouriteAlbumsData.length === 0 && favouriteSongsData.length === 0 && (
+            <h1>No favourites present</h1>
+          )}
         </>
       )}
     </section>

@@ -24,7 +24,7 @@ const TrendingSongs = ({ display, songs }) => {
             </figure>
             <main className="py-2 px-2 text-sm">
               <h1>
-                {song.name.length > 15
+                {song?.name?.length > 15
                   ? song.name.slice(0, 15) + "..."
                   : song.name}
               </h1>

@@ -1,39 +1,3 @@
-// import React, { useContext, useState } from "react";
-// import { AuthContextAPI } from "../context/AuthContext";
-// import { doc, getDoc } from "firebase/firestore";
-// import { __DB } from "../backend/firebase";
-// import { Navigate } from "react-router-dom";
-
-// const AdminRoutes = ({ children }) => {
-//   let [role, setRole] = useState(null);
-//   let { authUser } = useContext(AuthContextAPI);
-//   let { uid } = authUser === null ? "" : authUser;
-
-//   if (
-//     (uid !== undefined && authUser.accessToken) ||
-//     window.localStorage.getItem("TOKEN")
-//   ) {
-//     const fetchAdminUser = async () => {
-//       let adminRef = doc(__DB, "user_profile", authUser?.uid);
-//       let adminRole = await getDoc(adminRef);
-//       setRole(adminRole.data().role);
-//     };
-//     fetchAdminUser();
-
-//     console.log(role);
-
-//     if (role === "admin") {
-//       return children;
-//     } else {
-//       //   return <Navigate to="/user/profile" />;
-//     }
-//   } else {
-//     return <Navigate to="/auth/login" />;
-//   }
-// };
-
-// export default AdminRoutes;
-
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContextAPI } from "../context/AuthContext";
 import { doc, getDoc } from "firebase/firestore";

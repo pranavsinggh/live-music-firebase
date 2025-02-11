@@ -16,16 +16,16 @@ const LandingDashboard = () => {
     }
   }, [albums]);
 
-  const shuffleSongs = () => {
-    setSongs(prevSongs => {
-      const shuffled = [...prevSongs].sort(() => Math.random() - 0.5);
-      return shuffled;
-    });
-  };
+  // const shuffleSongs = () => {
+  //   setSongs(prevSongs => {
+  //     const shuffled = [...prevSongs].sort(() => Math.random() - 0.5);
+  //     return shuffled;
+  //   });
+  // };
 
-  useEffect(() => {
-    shuffleSongs();
-  }, [albums]);
+  // useEffect(() => {
+  //   shuffleSongs();
+  // }, [albums]);
 
   return (
     <section className="w-[84%] bg-slate-700 px-2">
@@ -36,7 +36,7 @@ const LandingDashboard = () => {
       ) : (
         <>
           <AllAlbums albums={albums} display="Albums" />
-          <TrendingSongs display="Trending songs" songs={songs} />
+          <TrendingSongs display="Songs" songs={songs} />
         </>
       )}
     </section>

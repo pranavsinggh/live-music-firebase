@@ -8,7 +8,7 @@ import { ImProfile } from "react-icons/im";
 
 const ProfileSidebar = () => {
   return (
-    <aside className="w-[16%] h-[91vh] bg-slate-800 sticky top-[80px] min-w-[230px]">
+    <aside className="w-[16%] h-[90.5vh] bg-slate-800 sticky top-[82px] min-w-[230px]">
       <nav className="flex flex-col justify-between h-full">
         <ul className="flex flex-col">
           <li>

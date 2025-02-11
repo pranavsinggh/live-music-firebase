@@ -8,7 +8,7 @@ import { IoMdAlbums } from "react-icons/io";
 
 const AdminSidebar = () => {
   return (
-    <aside className="w-[16%] h-[91vh] bg-slate-800 sticky top-[70px] min-w-[230px]">
+    <aside className="w-[16%] h-[90vh] bg-slate-800 sticky top-[70px] min-w-[230px]">
       <nav className="flex flex-col justify-between h-full">
         <ul className="flex flex-col">
           <li>
@@ -38,6 +38,48 @@ const AdminSidebar = () => {
                 <IoMdAlbums />
               </span>
               <span>Add album</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/add-song"
+              className="flex gap-2 items-center p-3 mb-1"
+              style={({ isActive }) => ({
+                background: isActive && "#393f61a6",
+              })}
+            >
+              <span className="text-slate-400 text-2xl">
+                <IoMdAlbums />
+              </span>
+              <span>Add song</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/add-trending-albums"
+              className="flex gap-2 items-center p-3 mb-1"
+              style={({ isActive }) => ({
+                background: isActive && "#393f61a6",
+              })}
+            >
+              <span className="text-slate-400 text-2xl">
+                <IoMdAlbums />
+              </span>
+              <span>Add trending albums</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/add-trending-songs"
+              className="flex gap-2 items-center p-3 mb-1"
+              style={({ isActive }) => ({
+                background: isActive && "#393f61a6",
+              })}
+            >
+              <span className="text-slate-400 text-2xl">
+                <IoMdAlbums />
+              </span>
+              <span>Add trending songs</span>
             </NavLink>
           </li>
         </ul>

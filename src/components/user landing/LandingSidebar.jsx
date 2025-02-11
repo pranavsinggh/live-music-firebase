@@ -24,24 +24,14 @@ const LandingSidebar = () => {
           </li>
           <li>
             <NavLink
+              to="/trendings"
               className="flex gap-2 items-center p-3 mb-1"
-              // style={({ isActive }) => ({
-              //   background: isActive && "#393f61a6",
-              // })}
+              style={({ isActive }) => ({
+                background: isActive && "#393f61a6",
+              })}
             >
               <span className="text-slate-400 text-2xl"></span>
-              <span>Trending songs</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className="flex gap-2 items-center p-3 mb-1"
-              // style={({ isActive }) => ({
-              //   background: isActive && "#393f61a6",
-              // })}
-            >
-              <span className="text-slate-400 text-2xl"></span>
-              <span>Trending albums</span>
+              <span>Trending</span>
             </NavLink>
           </li>
           <li>
@@ -54,6 +44,18 @@ const LandingSidebar = () => {
             >
               <span className="text-slate-400 text-2xl"></span>
               <span>Favourites</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/playlists"
+              className="flex gap-2 items-center p-3 mb-1"
+              style={({ isActive }) => ({
+                background: isActive && "#393f61a6",
+              })}
+            >
+              <span className="text-slate-400 text-2xl"></span>
+              <span>Playlists</span>
             </NavLink>
           </li>
         </ul>

@@ -113,7 +113,7 @@ const AddProfile = () => {
   } = data;
 
   return (
-    <section className="mt-[-5px]">
+    <section className="scale-90 -mt-8">
       <article className="max-w-4xl mx-auto bg-[#0F172A] px-8 py-4 rounded-2xl shadow-lg">
         <header className=" text-center">
           <h1 className="text-3xl font-semibold text-white mb-3">
@@ -121,7 +121,7 @@ const AddProfile = () => {
           </h1>
         </header>
         <main>
-          <form className="flex flex-col gap-[0.6rem]" onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-[0.6rem]"  onSubmit={handleSubmit}>
             {/* First Name and Last Name */}
             <div className="grid grid-cols-2 gap-4">
               <div>
