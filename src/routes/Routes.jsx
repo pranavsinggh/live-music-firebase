@@ -22,6 +22,7 @@ import AlbumDetails from "../components/user landing/AlbumDetails";
 import AudioContextProvider from "../context/AudioContextApi";
 import LandingContent from "../components/user landing/LandingContent";
 import CustomAudioPlayerProvider from "../context/CustomAudioPlayerContext";
+import Favourites from "../components/user landing/Favourites";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
           {
             path: "/album/:id",
             element: <AlbumDetails />,
+          },
+          {
+            path: "favourites",
+            element: <Favourites />,
           },
         ],
       },

@@ -1,19 +1,13 @@
-import { collection, getDocs } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { __DB } from "../../backend/firebase";
-import Spinner from "../helpers/Spinner";
 import { NavLink } from "react-router-dom";
-import CustomAudioPlayer from "./CustomAudioPlayer";
-import { AudioContext } from "../../context/AudioContextApi";
 
-const AllAlbums = () => {
-  const { albums } = useContext(AudioContext);
-
+const AllAlbums = ({ albums, display }) => {
   return (
     <>
       <article>
         <aside className="mb-4">
-          <h1 className="text-2xl p-2 mb-2">Albums</h1>
+          <h1 className="text-2xl p-2 mb-2">{display}</h1>
           <main className="flex gap-6">
             {albums.map(album => (
               <div
@@ -41,7 +35,6 @@ const AllAlbums = () => {
           </main>
         </aside>
       </article>
-      
     </>
   );
 };

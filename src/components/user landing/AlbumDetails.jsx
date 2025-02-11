@@ -1,16 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AlbumDetail from "./AlbumDetail";
-import { FaPlay, FaPause } from "react-icons/fa";
 import { AuthContextAPI } from "../../context/AuthContext";
 import { CustomAudioPlayerContextAPI } from "../../context/CustomAudioPlayerContext";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  getDoc,
+} from "firebase/firestore";
+import { __DB } from "../../backend/firebase";
+import toast from "react-hot-toast";
+import SongDetails from "./SongDetails";
+import { FaHeart } from "react-icons/fa";
 
 const AlbumDetails = () => {
   let { state } = useLocation();
   let { authUser } = useContext(AuthContextAPI);
-  let { setSongs, playing, handlePlay, setType, song } = useContext(
-    CustomAudioPlayerContextAPI
-  );
+  let { currentSong } = useContext(CustomAudioPlayerContextAPI);
 
   let [musicDirector, setMusicDirector] = useState("");
   let [lyricist, setLyricist] = useState("");
@@ -18,10 +26,61 @@ const AlbumDetails = () => {
   let [singers, setSingers] = useState("");
   let [director, setDirector] = useState("");
 
+  const [favouriteAlbums, setFavouriteAlbums] = useState([]);
+  const [like, setLike] = useState(false);
+
   useEffect(() => {
-    // setSongs(state?.songs);
-    setType("album");
-    // console.log(songs);
+    const fetchFavourites = async () => {
+      if (!authUser?.uid) return;
+
+      const userDocRef = doc(__DB, "user_profile", authUser.uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const favourites = userDocSnap.data().favouriteAlbum || [];
+        setFavouriteAlbums(favourites);
+        setLike(favourites.includes(state.id)); // Update like state
+      }
+    };
+
+    fetchFavourites();
+  }, [authUser?.uid, state.id]); // Runs when authUser or album ID changes
+
+  let handleFavourite = async () => {
+    try {
+      if (!authUser?.uid) {
+        toast.error("User not authenticated");
+        return;
+      }
+
+      const userDocRef = doc(__DB, "user_profile", authUser.uid);
+      const isAlreadyFavourite = favouriteAlbums.includes(state.id);
+
+      await updateDoc(userDocRef, {
+        favouriteAlbum: isAlreadyFavourite
+          ? arrayRemove(state.id)
+          : arrayUnion(state.id),
+      });
+
+      // Update state instantly to avoid refetching
+      const updatedFavourites = isAlreadyFavourite
+        ? favouriteAlbums.filter(id => id !== state.id) // Remove
+        : [...favouriteAlbums, state.id]; // Add
+
+      setFavouriteAlbums(updatedFavourites);
+      setLike(!isAlreadyFavourite);
+
+      toast.success(
+        isAlreadyFavourite
+          ? "Album removed from favourites"
+          : "Album added to favourites"
+      );
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
     if (state?.songs) {
       let newMusicDirectors = new Set();
       let newDirectors = new Set();
@@ -61,7 +120,7 @@ const AlbumDetails = () => {
   // };
 
   return (
-    <section className="p-3 w-full">
+    <section className="p-3 w-[85%]">
       <article>
         <aside className="flex gap-10 ">
           <div className="basis-[30%]">
@@ -69,6 +128,14 @@ const AlbumDetails = () => {
               <img src={state?.poster} alt="" className="rounded-lg w-full " />
               <span className="absolute top-0 right-0 px-3 py-1 bg-pink-500 rounded-md text-[12px]">
                 {state.language}
+              </span>
+              <span
+                className={`absolute -right-2 bottom-2 text-2xl  cursor-pointer`}
+                onClick={() => {
+                  setLike(!like), handleFavourite();
+                }}
+              >
+                <FaHeart className={`${like && "text-pink-500"}`} />
               </span>
             </figure>
           </div>
@@ -95,7 +162,11 @@ const AlbumDetails = () => {
             </ul>
           </div>
         </aside>
-        <main className="mt-4 p-5 flex flex-col gap-4 bg-slate-900 rounded-lg mb-24">
+        <main
+          className={`mt-4 p-5 flex flex-col gap-4 bg-slate-900 rounded-lg ${
+            currentSong != null ? "mb-[180px]" : ""
+          }`}
+        >
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="uppercase bg-slate-600 text-white w-full ">
               <tr>
@@ -105,67 +176,19 @@ const AlbumDetails = () => {
                 <th className="px-6 py-3">Artists</th>
                 <th className="px-6 py-3">Music Director</th>
                 <th className="px-6 py-3">Duration</th>
+                <th className="px-6 py-3">Favourite</th>
                 <th className="px-6 py-3 w-[70px]"></th>
               </tr>
             </thead>
             <tbody>
               {state?.songs.map((allbumSong, index) => {
                 return (
-                  <tr
-                    key={allbumSong.id}
-                    className={`border-b border-slate-400  text-slate-400 transition-all cursor-pointer ${
-                      allbumSong === song && "bg-purple-900 text-white"
-                    }  ${
-                      authUser === null &&
-                      index > 1 &&
-                      "bg-[#62676A] text-black cursor-not-allowed"
-                    }`}
-                    onClick={() => handlePlay(index, state.songs)}
-                  >
-                    <td className="py-2">
-                      <div className="flex justify-center items-center">
-                        {index + 1}
-                      </div>
-                    </td>
-                    <td className="relative  py-2">
-                      <span className="absolute top-7 text-white  left-11">
-                        {allbumSong === song && playing ? (
-                          <FaPause />
-                        ) : (
-                          <FaPlay />
-                        )}
-                      </span>
-                      <img
-                        src={allbumSong.thumbnail}
-                        alt=""
-                        className="h-14 w-18 rounded-lg"
-                      />
-                    </td>
-                    <td className="py-2">{allbumSong.name}</td>
-                    <td className="py-2">
-                      {allbumSong.artists.singers +
-                        "," +
-                        allbumSong.artists.actors}
-                    </td>
-                    <td className="py-2 px-6">
-                      {allbumSong.artists.musicDirector}
-                    </td>
-                    <td className="py-2 px-6">{`${Math.floor(
-                      allbumSong.duration / 60
-                    )}:${String(Math.round(allbumSong.duration % 60)).padStart(
-                      2,
-                      "0"
-                    )}`}</td>
-                    <td className="text-white ">
-                      <span>
-                        {allbumSong === song
-                          ? playing
-                            ? "Playing..."
-                            : "Paused..."
-                          : ""}
-                      </span>
-                    </td>
-                  </tr>
+                  <SongDetails
+                    allbumSong={allbumSong}
+                    key={index}
+                    index={index}
+                    state={state}
+                  />
                 );
               })}
             </tbody>
