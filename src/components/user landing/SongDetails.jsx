@@ -5,8 +5,10 @@ import { AuthContextAPI } from "../../context/AuthContext";
 import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { __DB } from "../../backend/firebase";
 import toast from "react-hot-toast";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
-const SongDetails = ({ allbumSong, index, state }) => {
+const SongDetails = ({ allbumSong, index, songs }) => {
+  console.log(allbumSong)
   let { playing, handlePlay, song } = useContext(CustomAudioPlayerContextAPI);
   let { authUser } = useContext(AuthContextAPI);
 
@@ -63,6 +65,11 @@ const SongDetails = ({ allbumSong, index, state }) => {
       toast.error(error.message);
     }
   };
+
+  
+  let handleOptions = (e) => {
+    e.stopPropagation()
+  }
   return (
     <tr
       className={`border-b border-slate-400  text-slate-400 transition-all cursor-pointer ${
@@ -72,7 +79,7 @@ const SongDetails = ({ allbumSong, index, state }) => {
         index > 1 &&
         "bg-[#62676A] text-black cursor-not-allowed"
       }`}
-      onClick={() => handlePlay(index, state.songs, "album")}
+      onClick={() => handlePlay(index, songs, "album")}
     >
       <td className="py-2">
         <div className="flex justify-center items-center">{index + 1}</div>
@@ -88,14 +95,12 @@ const SongDetails = ({ allbumSong, index, state }) => {
         />
       </td>
       <td className="py-2">{allbumSong.name}</td>
-      <td className="py-2">
-        {allbumSong.artists.singers + "," + allbumSong.artists.actors}
-      </td>
-      <td className="py-2 px-6">{allbumSong.artists.musicDirector}</td>
+      <td className="py-2">{allbumSong.singers}</td>
+      <td className="py-2 px-6">{allbumSong.musicDirector}</td>
       <td className="py-2 px-6">{`${Math.floor(
         allbumSong.duration / 60
       )}:${String(Math.round(allbumSong.duration % 60)).padStart(2, "0")}`}</td>
-      <td className="py-2 px-10">
+      <td className="py-2 px-12">
         <span
           className={`text-2xl  cursor-pointer`}
           onClick={e => {
@@ -110,6 +115,11 @@ const SongDetails = ({ allbumSong, index, state }) => {
       <td className="text-white ">
         <span>
           {allbumSong === song ? (playing ? "Playing..." : "Paused...") : ""}
+        </span>
+      </td>
+      <td>
+        <span className="text-xl" onClick={handleOptions}>
+          <BsThreeDotsVertical />
         </span>
       </td>
     </tr>

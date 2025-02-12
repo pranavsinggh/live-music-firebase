@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   doc,
   getDoc,
@@ -15,21 +14,16 @@ import AllAlbums from "./AllAlbums";
 import TrendingSongs from "./TrendingSongs";
 
 const Favourites = () => {
-  const [favouriteAlbums, setFavouriteAlbums] = useState([]); // Stores album IDs
-  const [favouriteAlbumsData, setFavouriteAlbumsData] = useState([]); // Stores album details
-
+  const [favouriteAlbums, setFavouriteAlbums] = useState([]);
+  const [favouriteAlbumsData, setFavouriteAlbumsData] = useState();
   const [favouriteSongs, setFavouriteSongs] = useState([]);
-  const [favouriteSongsData, setFavouriteSongsData] = useState([]);
+  const [favouriteSongsData, setFavouriteSongsData] = useState();
   const { authUser } = useContext(AuthContextAPI);
-  let [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFavourites = async () => {
       setLoading(true);
-      if (!authUser?.uid) {
-        return setLoading(false);
-      }
-
       const userDocRef = doc(__DB, "user_profile", authUser.uid);
       const userDocSnap = await getDoc(userDocRef);
 
@@ -44,55 +38,45 @@ const Favourites = () => {
     fetchFavourites();
   }, [authUser?.uid]);
 
-  console.log(favouriteSongs);
-
   useEffect(() => {
     const fetchFavouriteAlbums = async () => {
-      if (favouriteAlbums.length === 0) return;
+      if (favouriteAlbums.length === 0 && favouriteSongs.length === 0) {
+        setLoading(false);
+        return;
+      }
 
-      const albumCollectionRef = collection(__DB, "albums");
-      const albumQuery = query(
-        albumCollectionRef,
-        where("__name__", "in", favouriteAlbums)
-      );
-      const albumDocs = await getDocs(albumQuery);
-
-      const albums = albumDocs.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setFavouriteAlbumsData(albums);
+      if (favouriteAlbums.length > 0) {
+        const albumCollectionRef = collection(__DB, "albums");
+        const albumQuery = query(
+          albumCollectionRef,
+          where("__name__", "in", favouriteAlbums)
+        );
+        const albumDocs = await getDocs(albumQuery);
+        const albums = albumDocs.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setFavouriteAlbumsData(albums);
+      }
     };
 
     const fetchFavouriteSongs = async () => {
-      if (favouriteSongs.length === 0) {
-        return setLoading(false);
-      }
-
-      const albumCollectionRef = collection(__DB, "albums");
-      const albumDocs = await getDocs(albumCollectionRef); // Get all albums
-
-      let favSongs = [];
-      albumDocs.docs.forEach(doc => {
-        const albumData = doc.data();
-        const matchedSongs = albumData.songs.filter(song =>
-          favouriteSongs.includes(song.id)
+      if (favouriteSongs.length > 0) {
+        const songCollectionRef = collection(__DB, "songs");
+        const songQuery = query(
+          songCollectionRef,
+          where("__name__", "in", favouriteSongs)
         );
-
-        if (matchedSongs.length > 0) {
-          favSongs = [
-            ...favSongs,
-            ...matchedSongs.map(song => ({ ...song, albumId: doc.id })),
-          ];
-        }
-      });
-
+        const songDocs = await getDocs(songQuery);
+        const songs = songDocs.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setFavouriteSongsData(songs);
+      }
       setLoading(false);
-      setFavouriteSongsData(favSongs);
     };
 
     fetchFavouriteAlbums();
     fetchFavouriteSongs();
   }, [favouriteAlbums, favouriteSongs]);
-
-  console.log(favouriteSongsData);
 
   return (
     <section className="w-[84%] bg-slate-700 px-2">
@@ -102,21 +86,22 @@ const Favourites = () => {
         </div>
       ) : (
         <>
-          {favouriteAlbumsData.length > 0 && (
+          {favouriteAlbumsData?.length > 0 && (
             <AllAlbums
               albums={favouriteAlbumsData}
               display="Favourite albums"
             />
           )}
-          {favouriteSongsData.length > 0 && (
+          {favouriteSongsData?.length > 0 && (
             <TrendingSongs
               display="Favourite songs"
               songs={favouriteSongsData}
             />
           )}
-          {favouriteAlbumsData.length === 0 && favouriteSongsData.length === 0 && (
-            <h1>No favourites present</h1>
-          )}
+          {favouriteAlbumsData?.length === 0 &&
+            favouriteSongsData?.length === 0 && (
+              <h1 className="text-center text-white">No favourites present</h1>
+            )}
         </>
       )}
     </section>

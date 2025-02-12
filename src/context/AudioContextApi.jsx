@@ -6,19 +6,28 @@ export const AudioContext = createContext(null);
 
 const AudioContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
-    const [albums, setAlbums] = useState([]);
-    
+  const [albums, setAlbums] = useState([]);
+  const [allSongs, setAllSongs] = useState([]);
+
   useEffect(() => {
-    const fetchAlbums = async () => {
+    const fetch = async () => {
       try {
         setLoading(true);
         const albumCollectionRef = collection(__DB, "albums");
         const get_albums = await getDocs(albumCollectionRef);
-        const data = get_albums.docs.map(album => ({
+        const album_data = get_albums.docs.map(album => ({
           ...album.data(),
           id: album.id,
         }));
-        setAlbums(data);
+        setAlbums(album_data);
+
+        const songCollectionRef = collection(__DB, "songs");
+        const get_songs = await getDocs(songCollectionRef);
+        const song_data = get_songs.docs.map(song => ({
+          ...song.data(),
+          id: song.id,
+        }));
+        setAllSongs(song_data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -26,12 +35,11 @@ const AudioContextProvider = ({ children }) => {
       }
     };
 
-    fetchAlbums();
+    fetch();
   }, []);
-    
-    
+
   return (
-    <AudioContext.Provider value={{ albums , loading }}>
+    <AudioContext.Provider value={{ albums,allSongs, loading }}>
       {children}
     </AudioContext.Provider>
   );
