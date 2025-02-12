@@ -1,10 +1,13 @@
-import { collection, getDocs } from "firebase/firestore";
-import { createContext, useEffect, useState } from "react";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { createContext, useContext, useEffect, useState } from "react";
 import { __DB } from "../backend/firebase";
+import { AuthContextAPI } from "./AuthContext";
 
 export const AudioContext = createContext(null);
 
 const AudioContextProvider = ({ children }) => {
+  const { authUser } = useContext(AuthContextAPI);
+  const uid = authUser?.uid;
   const [loading, setLoading] = useState(false);
   const [albums, setAlbums] = useState([]);
   const [allSongs, setAllSongs] = useState([]);
@@ -39,7 +42,7 @@ const AudioContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AudioContext.Provider value={{ albums,allSongs, loading }}>
+    <AudioContext.Provider value={{ albums, allSongs, loading }}>
       {children}
     </AudioContext.Provider>
   );

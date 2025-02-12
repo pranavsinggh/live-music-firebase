@@ -1,4 +1,6 @@
 import React from "react";
+import { FaFire, FaHeart } from "react-icons/fa";
+import { PiPlaylistFill } from "react-icons/pi";
 import { RxDashboard } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
 
@@ -30,7 +32,9 @@ const LandingSidebar = () => {
                 background: isActive && "#393f61a6",
               })}
             >
-              <span className="text-slate-400 text-2xl"></span>
+              <span className="text-slate-400 text-2xl">
+                <FaFire />
+              </span>
               <span>Trending</span>
             </NavLink>
           </li>
@@ -42,7 +46,9 @@ const LandingSidebar = () => {
                 background: isActive && "#393f61a6",
               })}
             >
-              <span className="text-slate-400 text-2xl"></span>
+              <span className="text-slate-400 text-2xl">
+                <FaHeart />
+              </span>
               <span>Favourites</span>
             </NavLink>
           </li>
@@ -54,7 +60,9 @@ const LandingSidebar = () => {
                 background: isActive && "#393f61a6",
               })}
             >
-              <span className="text-slate-400 text-2xl"></span>
+              <span className="text-slate-400 text-2xl">
+                <PiPlaylistFill />
+              </span>
               <span>Playlists</span>
             </NavLink>
           </li>

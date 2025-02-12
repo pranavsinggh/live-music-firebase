@@ -2,13 +2,20 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaHeart, FaPause, FaPlay } from "react-icons/fa";
 import { CustomAudioPlayerContextAPI } from "../../context/CustomAudioPlayerContext";
 import { AuthContextAPI } from "../../context/AuthContext";
-import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { __DB } from "../../backend/firebase";
 import toast from "react-hot-toast";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import ReactDOM from "react-dom";
+import AddToPlaylistPortal from "../portal/AddToPlaylistPortal";
 
 const SongDetails = ({ allbumSong, index, songs }) => {
-  console.log(allbumSong)
   let { playing, handlePlay, song } = useContext(CustomAudioPlayerContextAPI);
   let { authUser } = useContext(AuthContextAPI);
 
@@ -66,10 +73,17 @@ const SongDetails = ({ allbumSong, index, songs }) => {
     }
   };
 
-  
-  let handleOptions = (e) => {
-    e.stopPropagation()
-  }
+  let [showOptions, setShowOptions] = useState(false);
+  let handleOptions = e => {
+    e.stopPropagation();
+    setShowOptions(!showOptions);
+  };
+
+  let [playlistPortal, setPlaylistPortal] = useState(false);
+  let handleAddToPlaylist = e => {
+    e.stopPropagation();
+    setPlaylistPortal(!playlistPortal);
+  };
   return (
     <tr
       className={`border-b border-slate-400  text-slate-400 transition-all cursor-pointer ${
@@ -78,7 +92,7 @@ const SongDetails = ({ allbumSong, index, songs }) => {
         authUser === null &&
         index > 1 &&
         "bg-[#62676A] text-black cursor-not-allowed"
-      }`}
+      } relative`}
       onClick={() => handlePlay(index, songs, "album")}
     >
       <td className="py-2">
@@ -122,6 +136,19 @@ const SongDetails = ({ allbumSong, index, songs }) => {
           <BsThreeDotsVertical />
         </span>
       </td>
+      <div
+        className={`absolute right-12 -top-2 ${
+          !showOptions && "hidden"
+        } p-2 bg-white text-black rounded-md`}
+        onClick={handleAddToPlaylist}
+      >
+        Add to playlist
+      </div>
+      {playlistPortal &&
+        ReactDOM.createPortal(
+          <AddToPlaylistPortal close={setPlaylistPortal} id={allbumSong.id} />,
+          document.getElementById("portal")
+        )}
     </tr>
   );
 };
