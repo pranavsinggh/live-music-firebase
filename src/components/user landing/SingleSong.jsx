@@ -51,8 +51,8 @@ const SingleSong = ({ song, index, songs }) => {
     fetchFavourites();
   }, [authUser?.uid, song.id]); // Runs when authUser or album ID changes
 
-  let handleFavourite = async (e) => {
-    e.stopPropagation()
+  let handleFavourite = async e => {
+    e.stopPropagation();
     try {
       if (!authUser?.uid) {
         toast.error("User not authenticated");
@@ -109,7 +109,9 @@ const SingleSong = ({ song, index, songs }) => {
             !showOptions && "hidden"
           } p-2 bg-white text-black rounded-md  flex flex-col`}
         >
-          <span onClick={handleAddToPlaylist} className="cursor-pointer">Add to playlist</span>
+          <span onClick={handleAddToPlaylist} className="cursor-pointer">
+            Add to playlist
+          </span>
           <hr className="border-2 border-black/50" />
           <span className="cursor-pointer" onClick={handleFavourite}>
             {like ? "Remove from favourites" : "Add to favourites"}
@@ -117,7 +119,11 @@ const SingleSong = ({ song, index, songs }) => {
         </div>
         {playlistPortal &&
           ReactDOM.createPortal(
-            <AddToPlaylistPortal close={setPlaylistPortal} id={song.id} />,
+            <AddToPlaylistPortal
+              close={setPlaylistPortal}
+              id={song.id}
+              poster={song.thumbnail}
+            />,
             document.getElementById("portal")
           )}
       </main>

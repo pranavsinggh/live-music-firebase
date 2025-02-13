@@ -2,10 +2,19 @@ import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import { CustomAudioPlayerContextAPI } from "../../context/CustomAudioPlayerContext";
 import CustomAudioPlayer from "./CustomAudioPlayer";
+import { IoClose } from "react-icons/io5";
 
 const LandingContent = () => {
-  let { audio, playing, setPlaying, handlePlay, songs, currentSong, song } =
-    useContext(CustomAudioPlayerContextAPI);
+  let {
+    audio,
+    playing,
+    setPlaying,
+    handlePlay,
+    songs,
+    currentSong,
+    song,
+    handleClose,
+  } = useContext(CustomAudioPlayerContextAPI);
   return (
     <>
       <Outlet />
@@ -14,9 +23,15 @@ const LandingContent = () => {
           (currentSong === null || currentSong === undefined) && "hidden"
         }`}
       >
-        <h1 className="text-white text-lg font-semibold text-center truncate px-4 py-2 bg-slate-600">
-          {song?.name || "No song playing"}
-        </h1>
+        <div className="flex items-center w-full bg-slate-600 px-4 py-2 justify-between">
+          <h1 className="text-white text-lg font-semibold flex-grow text-center">
+            {song?.name || "No song playing"}
+          </h1>
+          <span className="ml-auto cursor-pointer" onClick={handleClose}>
+            <IoClose className="text-white text-2xl font-[900]" />
+          </span>
+        </div>
+
         <CustomAudioPlayer
           songs={songs}
           audioSrc={audio} // Ensure you're passing the correct audio source

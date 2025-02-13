@@ -41,6 +41,15 @@ const CustomAudioPlayerProvider = ({ children }) => {
     }
   };
 
+  const handleClose = () => {
+    setPlayType(null)
+    setSong(null)
+    setSongs([])
+    setAudio("")
+    setCurrentSong(null)
+    setPlaying(false)
+  }
+
   return (
     <CustomAudioPlayerContextAPI.Provider
       value={{
@@ -54,6 +63,7 @@ const CustomAudioPlayerProvider = ({ children }) => {
         setCurrentSong,
         handlePlay,
         song,
+        handleClose
       }}
     >
       {children}

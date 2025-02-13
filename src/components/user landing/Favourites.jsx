@@ -20,11 +20,12 @@ const Favourites = () => {
   const [favouriteSongsData, setFavouriteSongsData] = useState();
   const { authUser } = useContext(AuthContextAPI);
   const [loading, setLoading] = useState(true);
+  let {uid}=authUser || {}
 
   useEffect(() => {
+    setLoading(true)
     const fetchFavourites = async () => {
-      setLoading(true);
-      const userDocRef = doc(__DB, "user_profile", authUser.uid);
+      const userDocRef = doc(__DB, "user_profile", uid);
       const userDocSnap = await getDoc(userDocRef);
 
       if (userDocSnap.exists()) {
@@ -39,8 +40,9 @@ const Favourites = () => {
   }, [authUser?.uid]);
 
   useEffect(() => {
+    setLoading(true)
     const fetchFavouriteAlbums = async () => {
-      if (favouriteAlbums.length === 0 && favouriteSongs.length === 0) {
+      if (favouriteAlbums?.length === 0 && favouriteSongs?.length === 0) {
         setLoading(false);
         return;
       }
@@ -77,6 +79,8 @@ const Favourites = () => {
     fetchFavouriteAlbums();
     fetchFavouriteSongs();
   }, [favouriteAlbums, favouriteSongs]);
+
+  console.log(favouriteSongsData)
 
   return (
     <section className="w-[84%] bg-slate-700 px-2">

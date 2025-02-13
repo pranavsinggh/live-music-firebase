@@ -23,7 +23,7 @@ const SongDetails = ({ allbumSong, index, songs }) => {
   const [favouriteSongs, setFavouriteSongs] = useState([]);
   const [like, setLike] = useState(false);
 
-  let navigate=useNavigate()
+  let navigate = useNavigate();
 
   useEffect(() => {
     const fetchFavourites = async () => {
@@ -87,10 +87,9 @@ const SongDetails = ({ allbumSong, index, songs }) => {
     e.stopPropagation();
     if (authUser) {
       setPlaylistPortal(!playlistPortal);
-    }
-    else {
-      toast.error("Login first")
-      navigate("/auth/login")
+    } else {
+      toast.error("Login first");
+      navigate("/auth/login");
     }
   };
   return (
@@ -155,7 +154,11 @@ const SongDetails = ({ allbumSong, index, songs }) => {
       </div>
       {playlistPortal &&
         ReactDOM.createPortal(
-          <AddToPlaylistPortal close={setPlaylistPortal} id={allbumSong.id} />,
+          <AddToPlaylistPortal
+            close={setPlaylistPortal}
+            id={allbumSong.id}
+            poster={allbumSong.thumbnail}
+          />,
           document.getElementById("portal")
         )}
     </tr>
