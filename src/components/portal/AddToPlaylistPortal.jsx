@@ -115,7 +115,7 @@ const AddToPlaylistPortal = ({ close, id }) => {
   return (
     <section
       className="fixed inset-0 bg-black/60 flex justify-center items-center"
-      onClick={() => close(false)}
+      onClick={(e) => {close(false),e.stopPropagation()}}
     >
       <article
         className="bg-slate-700 h-[50%] w-[30%] p-4 rounded-lg shadow-lg"

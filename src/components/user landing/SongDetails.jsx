@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ReactDOM from "react-dom";
 import AddToPlaylistPortal from "../portal/AddToPlaylistPortal";
+import { useNavigate } from "react-router-dom";
 
 const SongDetails = ({ allbumSong, index, songs }) => {
   let { playing, handlePlay, song } = useContext(CustomAudioPlayerContextAPI);
@@ -21,6 +22,8 @@ const SongDetails = ({ allbumSong, index, songs }) => {
 
   const [favouriteSongs, setFavouriteSongs] = useState([]);
   const [like, setLike] = useState(false);
+
+  let navigate=useNavigate()
 
   useEffect(() => {
     const fetchFavourites = async () => {
@@ -82,7 +85,13 @@ const SongDetails = ({ allbumSong, index, songs }) => {
   let [playlistPortal, setPlaylistPortal] = useState(false);
   let handleAddToPlaylist = e => {
     e.stopPropagation();
-    setPlaylistPortal(!playlistPortal);
+    if (authUser) {
+      setPlaylistPortal(!playlistPortal);
+    }
+    else {
+      toast.error("Login first")
+      navigate("/auth/login")
+    }
   };
   return (
     <tr
