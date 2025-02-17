@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import { CustomAudioPlayerContextAPI } from "../../context/CustomAudioPlayerContext";
-import CustomAudioPlayer from "./CustomAudioPlayer";
 import { IoClose } from "react-icons/io5";
+import CustomAudioPlayer from "react-audio-pro-player";
 
 const LandingContent = () => {
   let {
@@ -15,6 +15,8 @@ const LandingContent = () => {
     song,
     handleClose,
   } = useContext(CustomAudioPlayerContextAPI);
+
+  console.log(song);
   return (
     <>
       <Outlet />

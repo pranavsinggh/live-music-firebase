@@ -15,7 +15,7 @@ const AllAlbums = ({ albums, display }) => {
                 className="basis-[250px] mt-2 bg-slate-900 rounded-md hover:scale-105 transition-all"
                 key={album.id}
               >
-                <NavLink to={`/album/${album.id}`} state={{ album }}>
+                <NavLink to={`/album/${album.title}`} state={{ album }}>
                   <figure className="relative">
                     {album.poster ? (
                       <img

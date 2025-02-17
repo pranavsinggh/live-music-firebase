@@ -27,6 +27,7 @@ import Playlists from "../components/user landing/Playlists";
 import AddTrendingAlbums from "../components/admin/AddTrendingAlbums";
 import AddTrendingSongs from "../components/admin/AddTrendingSongs";
 import AddSong from "../components/admin/AddSong";
+import PlaylistDetails from "../components/user landing/PlaylistDetails";
 
 const router = createBrowserRouter([
   {
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
             element: <LandingDashboard />,
           },
           {
-            path: "/album/:id",
+            path: "album/:name",
             element: <AlbumDetails />,
           },
           {
@@ -68,6 +69,14 @@ const router = createBrowserRouter([
             element: (
               <ProtectedRoutes>
                 <Playlists />
+              </ProtectedRoutes>
+            ),
+          },
+          {
+            path: "playlists/:id",
+            element: (
+              <ProtectedRoutes>
+                <PlaylistDetails />
               </ProtectedRoutes>
             ),
           },

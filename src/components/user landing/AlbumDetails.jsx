@@ -84,9 +84,10 @@ const AlbumDetails = () => {
     // Convert total duration from seconds to MM:SS format
     const minutes = Math.floor(totalDuration / 60);
     const seconds = Math.floor(totalDuration % 60);
-    const formattedDuration = `${String(minutes).padStart(2, "0")}:${String(
-      seconds
-    ).padStart(2, "0")}`;
+    const formattedDuration = `${String(minutes).padStart(
+      2,
+      "0"
+    )} minutes : ${String(seconds).padStart(2, "0")} seconds`;
 
     setData({
       language: [...languages],
@@ -223,6 +224,7 @@ const AlbumDetails = () => {
                     key={index}
                     index={index}
                     songs={songs}
+                    type="add"
                   />
                 );
               })}

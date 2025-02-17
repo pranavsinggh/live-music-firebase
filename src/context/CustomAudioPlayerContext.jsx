@@ -16,30 +16,29 @@ const CustomAudioPlayerProvider = ({ children }) => {
 
 
   const handlePlay = (index, allSongs, type) => {
-    if (type == "album" || playType == "album") {
-      setPlayType("album");
-      if (authUser !== null || index < 2) {
-        setSong(allSongs[index]);
-        setSongs(allSongs);
-        if (currentSong === index) {
-          setPlaying(!playing);
-        } else {
-          setAudio(allSongs[index]?.src);
-          setCurrentSong(index);
-          setPlaying(true); 
-        }
-      } else {
-        toast.error("Login to listen to other songs");
+    const isAlbumPlay = type === "album" || playType === "album";
+    const isSongPlay = type === "song" || playType === "song";
+
+    if (isAlbumPlay || isSongPlay) {
+      setPlayType(isAlbumPlay ? "album" : "song");
+
+      // Enforce authentication restriction only for albums
+      if (isAlbumPlay && authUser === null && index >= 2) {
+        return toast.error("Login to listen to other songs");
       }
-    } else if (type == "song" || playType == "song") {
-      setPlayType("song");
-      setSong(allSongs[index]);
+
       setSongs(allSongs);
-      setAudio(allSongs[index]?.src);
-      setCurrentSong(index);
-      setPlaying(true);
+      if (currentSong === index) {
+        setPlaying(!playing);
+      } else {
+        setSong(allSongs[index]);
+        setAudio(allSongs[index]?.src);
+        setCurrentSong(index);
+        setPlaying(true);
+      }
     }
   };
+
 
   const handleClose = () => {
     setPlayType(null)
